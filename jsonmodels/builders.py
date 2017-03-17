@@ -94,6 +94,7 @@ class ObjectBuilder(Builder):
         }
         schema = {
             "type": "object",
+            "title": self.type.__name__,
             "additionalProperties": False,
             "properties": properties,
         }
