@@ -12,6 +12,8 @@ from .errors import ValidationError
 # it is a completely valid default value.
 NotSet = object()
 
+_FIELD_NAME_REGEX = re.compile(r"^[A-Za-z_](([\w\-]*)?\w+)?$")
+
 
 class BaseField:
     """Base class for all fields."""
@@ -142,7 +144,7 @@ class BaseField:
     def _validate_name(self):
         if self.name is None:
             return
-        if not re.match(r"^[A-Za-z_](([\w\-]*)?\w+)?$", self.name):
+        if not _FIELD_NAME_REGEX.match(self.name):
             raise ValueError("Wrong name", self.name)
 
     def structure_name(self, default):
