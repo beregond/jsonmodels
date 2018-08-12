@@ -41,13 +41,14 @@ class Base(metaclass=JsonmodelMeta):
             if name in values:
                 self.set_field(field, name, values.pop(name))
 
-    def get_field(self, field_name):
+    @classmethod
+    def get_field(cls, field_name):
         """Get field associated with given attribute."""
-        for attr_name, field in self:
-            if field_name == attr_name:
-                return field
-
-        raise errors.FieldNotFound("Field not found", field_name)
+        field = getattr(cls, field_name, None)
+        if isinstance(field, BaseField):
+            return field
+        else:
+            raise errors.FieldNotFound("Field not found", field_name)
 
     def set_field(self, field, field_name, value):
         """Sets the value of a field."""
