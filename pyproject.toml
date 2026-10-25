@@ -45,7 +45,7 @@ dev = [
 ]
 
 [project.urls]
-"Home" = "https://github.com/jazzband/jsonmodels"
+"Home" = "https://github.com/beregond/jsonmodels"
 
 [tool.flake8]
 exclude = ["./docs/conf.py"]

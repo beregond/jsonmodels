@@ -2,14 +2,6 @@
 Contributing
 ============
 
-.. image:: https://jazzband.co/static/img/jazzband.svg
-   :target: https://jazzband.co/
-   :alt: Jazzband
-
-This is a `Jazzband <https://jazzband.co>`_ project. By contributing you agree to abide
-by the `Contributor Code of Conduct <https://jazzband.co/about/conduct>`_ and follow the
-`guidelines <https://jazzband.co/about/guidelines>`_.
-
 Contributions are welcome, and they are greatly appreciated! Every
 little bit helps, and credit will always be given.
 
@@ -21,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/jazzband/jsonmodels/issues.
+Report bugs at https://github.com/beregond/jsonmodels/issues.
 
 If you are reporting a bug, please include:
 
@@ -51,7 +43,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/jazzband/jsonmodels/issues.
+The best way to send feedback is to file an issue at https://github.com/beregond/jsonmodels/issues.
 
 If you are proposing a feature:
 
@@ -106,7 +98,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 3.8+, and for
-   PyPy. Check https://github.com/jazzband/jsonmodels/actions and make
+   PyPy. Check https://github.com/beregond/jsonmodels/actions and make
    sure that the tests pass for all supported Python versions.
 
 Tips
