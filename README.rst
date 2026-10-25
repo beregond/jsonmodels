@@ -2,23 +2,19 @@
 JSON models
 ===========
 
-.. image:: https://jazzband.co/static/img/badge.svg
-   :target: https://jazzband.co/
-   :alt: Jazzband
-
 .. image:: https://badge.fury.io/py/jsonmodels.svg
    :target: http://badge.fury.io/py/jsonmodels
 
-.. image:: https://github.com/jazzband/jsonmodels/workflows/Test/badge.svg
-   :target: https://github.com/jazzband/jsonmodels/actions
+.. image:: https://github.com/beregond/jsonmodels/workflows/Test/badge.svg
+   :target: https://github.com/beregond/jsonmodels/actions
    :alt: Tests
 
 .. image:: https://img.shields.io/pypi/dm/jsonmodels.svg
    :target: https://pypi.python.org/pypi/jsonmodels
    :alt: PyPI
 
-.. image:: https://codecov.io/gh/jazzband/jsonmodels/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/jazzband/jsonmodels
+.. image:: https://codecov.io/gh/beregond/jsonmodels/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/beregond/jsonmodels
    :alt: Coverage
 
 `jsonmodels` is library to make it easier for you to deal with structures that
@@ -26,7 +22,7 @@ are converted to, or read from JSON.
 
 * Free software: BSD license
 * Documentation: http://jsonmodels.rtfd.org
-* Source: https://github.com/jazzband/jsonmodels
+* Source: https://github.com/beregond/jsonmodels
 
 Features
 --------
