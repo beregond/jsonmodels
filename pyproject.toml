@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jsonmodels"
-version = "2.8.0"
+version = "2.9.0"
 description = "Models to make easier to deal with structures that are converted to, or read from JSON."
 readme = "README.rst"
 requires-python = ">=3.11"

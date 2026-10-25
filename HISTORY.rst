@@ -3,6 +3,12 @@
 History
 -------
 
+2.9.0 (2026-10-25)
+++++++++++++++++++
+
+* Removed support for Python 3.10.
+* Added support for Python 3.15.
+
 2.8.0 (2025-12-27)
 ++++++++++++++++++
 
