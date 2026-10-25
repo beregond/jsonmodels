@@ -29,7 +29,6 @@ Features
 
 * Fully tested with Python 3.8+.
 
-* Support for PyPy 3.9 and 3.10 (see implementation notes in docs for more details).
 
 * Create Django-like models:
 
