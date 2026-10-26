@@ -93,3 +93,13 @@ def test_cross_names():
     foo = Foo(one=1, two=2)
     assert foo.one == 2
     assert foo.two == 1
+
+
+def test_deprecated_structue_name_alias():
+    field = fields.StringField(name="second-name")
+    with pytest.warns(DeprecationWarning, match="structue_name"):
+        assert field.structue_name("surname") == "second-name"
+
+    field = fields.StringField()
+    with pytest.warns(DeprecationWarning, match="structue_name"):
+        assert field.structue_name("surname") == "surname"
