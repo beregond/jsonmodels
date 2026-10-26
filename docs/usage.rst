@@ -6,14 +6,13 @@ To use JSON models in a project:
 
 .. code-block:: python
 
-    import jsonmodels
+    from jsonmodels import fields, models
 
 Creating models
 ---------------
 
 To create models you need to create class that inherits from
-:class:`jsonmodels.models.Base` (and *NOT* :class:`jsonmodels.models.PreBase`
-to which although refers links in documentation) and have class attributes
+:class:`jsonmodels.models.Base` and have class attributes
 which values inherits from :class:`jsonmodels.fields.BaseField` (so all other
 fields classes from :mod:`jsonmodels.fields`).
 
@@ -46,11 +45,14 @@ fields classes from :mod:`jsonmodels.fields`).
         car = fields.EmbeddedField(Car)
         pets = fields.ListField([Cat, Dog])
 
+All available fields are described in :doc:`fields`, and embedding models in
+:doc:`embedded`.
+
 Usage
 -----
 
 After that you can use it as normal object. You can pass kwargs in constructor
-or :meth:`jsonmodels.models.PreBase.populate` method.
+or :meth:`jsonmodels.models.Base.populate` method.
 
 .. code-block:: python
 
@@ -69,8 +71,8 @@ Validation
 ----------
 
 You can specify which fields are *required*, if required value is absent during
-:meth:`jsonmodels.models.PreBase.validate` the
-:class:`jsonmodels.error.ValidationError` will be raised.
+:meth:`jsonmodels.models.Base.validate` the
+:class:`jsonmodels.errors.ValidationError` will be raised.
 
 .. code-block:: python
 
@@ -96,7 +98,7 @@ Also validation is made every time new value is assigned, so trying assign
 .. code-block:: python
 
     >>> dafty.name = 3
-    *** ValidationError: ('Value is wrong, expected type "basestring"', 3)
+    *** ValidationError: ('Value is wrong, expected type "str"', 3)
 
 During casting model to JSON or JSONSchema explicite validation is always
 called.
@@ -109,8 +111,10 @@ or list of validators (so, as you may be expecting, you can't pass object that
 extends `List`).
 
 You can try to use validators shipped with this library. To get more details
-see :mod:`jsonmodels.validators`. Shipped validators affect generated schema
+see :doc:`validators` and :mod:`jsonmodels.validators`. Shipped validators affect generated schema
 out of the box, to use full potential JSON schema gives you.
+
+.. _custom-validators:
 
 Custom validators
 ~~~~~~~~~~~~~~~~~
@@ -141,8 +145,9 @@ didn't pass. Returning values like `False` won't have any effect.
     ...   age = fields.IntField(
     ...     Car, validators=[some_validator, RangeValidator(0, 100)])
 
-If your validator have method `modify_schema` you can use it to affect
-generated schema in any way. Given argument is schema for single field. For
+Custom validators are **not** reflected in the generated schema by default
+(unlike the shipped ones). If your validator have method `modify_schema` you
+can use it to affect generated schema in any way. Given argument is schema for single field. For
 example:
 
 .. code-block:: python
@@ -158,6 +163,8 @@ example:
     ...
     ...     if self.maximum_value:
     ...         field_schema['maxLength'] = self.maximum_value
+
+.. _default-values:
 
 Default values
 --------------
@@ -217,7 +224,7 @@ Casting to Python struct (and JSON)
 -----------------------------------
 
 Instance of model can be easy casted to Python struct (and thanks to that,
-later to JSON). See :meth:`jsonmodels.models.PreBase.to_struct`.
+later to JSON). See :meth:`jsonmodels.models.Base.to_struct`.
 
 .. code-block:: python
 
@@ -236,6 +243,8 @@ Having Python struct it is easy to cast it to JSON.
     >>> import json
     >>> person_json = json.dumps(person.to_struct())
 
+.. _json-schema:
+
 Creating JSON schema for your model
 -----------------------------------
 
@@ -251,6 +260,8 @@ is possible to you to operate just on models.
 
 And thats it! You can serve then this schema through your API or use it for
 validation incoming data.
+
+.. _different-names:
 
 Different names in structure and objects
 ----------------------------------------
