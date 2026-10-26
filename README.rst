@@ -13,8 +13,8 @@ JSON models
    :target: https://pypi.python.org/pypi/jsonmodels
    :alt: PyPI
 
-.. image:: https://codecov.io/gh/beregond/jsonmodels/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/beregond/jsonmodels
+.. image:: https://codecov.io/github/beregond/jsonmodels/graph/badge.svg?token=3CBD41O51N
+   :target: https://codecov.io/github/beregond/jsonmodels
    :alt: Coverage
 
 `jsonmodels` is library to make it easier for you to deal with structures that
