@@ -80,18 +80,22 @@ Optional field with a validator
 Without `nullable=True` the validator would also run for a missing value
 (`None`) and fail.
 
-Client-side validation with a schema served over OPTIONS
---------------------------------------------------------
+Client-side validation with a published schema
+----------------------------------------------
 
 .. warning::
 
-   This is an unconventional recipe, not a standard or recommended way to build
-   APIs. It is shown here because `jsonmodels` makes it cheap to try.
+   This is a less common pattern, not a standard way of building APIs. It is
+   shown here because `jsonmodels` makes it cheap to try.
 
-The idea: the server publishes the JSON schema of its models in response to an
-HTTP `OPTIONS` request, and the client downloads it and validates the payload
-**before** sending it. Invalid data never reaches the server, and the rules live
-in one place, the model.
+The idea: the server publishes the JSON schema of its models, and the client
+downloads it and validates the payload **before** sending it. Invalid data
+never reaches the server, and the rules live in one place, the model.
+
+Serve the schema from its own `GET` URL, such as `/schemas/user.json`. It works
+with caches, CDNs and any HTTP tool. Optionally advertise the URL on the real
+resource with a `Link: <...>; rel="describedby"` header, so clients don't have
+to hardcode it.
 
 Server (Flask, but any framework works):
 
@@ -114,12 +118,20 @@ Server (Flask, but any framework works):
     app = Flask(__name__)
 
 
-    @app.route("/users", methods=["OPTIONS"])
-    def users_schema():
-        return jsonify(User.to_json_schema())
+    @app.get("/schemas/user.json")
+    def user_schema():
+        response = jsonify(User.to_json_schema())
+        response.headers["Cache-Control"] = "public, max-age=3600"
+        response.add_etag()
+        return response.make_conditional(request)
 
 
-    @app.route("/users", methods=["POST"])
+    @app.get("/users")
+    def list_users():
+        return jsonify([])
+
+
+    @app.post("/users")
     def create_user():
         # Never trust the client, validate again.
         try:
@@ -128,6 +140,13 @@ Server (Flask, but any framework works):
         except (ValidationError, ValueError) as error:
             return jsonify(error=str(error)), 400
         return jsonify(user.to_struct()), 201
+
+
+    @app.after_request
+    def advertise_schema(response):
+        if request.path == "/users":
+            response.headers["Link"] = '</schemas/user.json>; rel="describedby"'
+        return response
 
 Client (Python, with `requests`, `jsonschema` and `jsonmodels` itself):
 
@@ -156,8 +175,15 @@ Client (Python, with `requests`, `jsonschema` and `jsonmodels` itself):
         return schema
 
 
+    def fetch_schema(base_url, resource):
+        # Discover the schema URL from the Link header of the resource.
+        head = requests.head(f"{base_url}/{resource}")
+        schema_url = head.links["describedby"]["url"]
+        return fix_patterns(requests.get(f"{base_url}{schema_url}").json())
+
+
     def create_user(base_url, payload):
-        schema = fix_patterns(requests.options(f"{base_url}/users").json())
+        schema = fetch_schema(base_url, "users")
         errors = sorted(Draft4Validator(schema).iter_errors(payload), key=str)
         if errors:
             raise ValueError([error.message for error in errors])
@@ -186,11 +212,15 @@ Things to know:
   `new RegExp(body, flags)`.
 * **The schema follows JSON schema draft 4** (boolean `exclusiveMinimum` and
   `exclusiveMaximum`), so use `Draft4Validator`.
-* **Browsers use `OPTIONS` for CORS preflight.** If the API is called from a
-  browser on another origin, your `OPTIONS` handler must keep answering
-  preflight requests correctly (with the right `Access-Control-*` headers), or
-  you should serve the schema from a separate URL.
-* Cache the schema on the client, it changes only when the server is deployed.
+* **Cache the schema.** It changes only when the server is deployed, so use
+  `Cache-Control` and `ETag` (as above) and version the URL, e.g.
+  `/v1/schemas/user.json`.
+* **Static alternative.** If you have many clients, generate
+  `user.json` at build time (`json.dump(User.to_json_schema(), file)`) and
+  publish it as a file, e.g. on a CDN, versioned together with the code.
+* **Why not `OPTIONS`?** It is meant to describe which methods a URL
+  allows, and browsers use it for CORS preflight, so a custom handler there
+  can get in the way.
 
 Migrating
 ---------
