@@ -30,6 +30,7 @@ dev = [
   "MarkupSafe",
   "Pygments",
   "Sphinx",
+  "furo",
   "coverage",
   "docutils",
   "flake8",

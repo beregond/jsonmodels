@@ -9,6 +9,11 @@ Contents:
    readme
    installation
    usage
+   fields
+   validators
+   embedded
+   errors
+   cookbook
    implementation_notes
    modules
    contributing

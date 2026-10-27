@@ -2,11 +2,19 @@
 Installation
 ============
 
-At the command line::
+`jsonmodels` supports Python 3.11 to 3.15.
 
-    $ easy_install jsonmodels
+Install it from PyPI::
 
-Or, if you have `virtualenvwrapper` installed::
-
-    $ mkvirtualenv jsonmodels
     $ pip install jsonmodels
+
+Or, if you want to keep it isolated in a virtual environment::
+
+    $ python -m venv .venv
+    $ source .venv/bin/activate
+    $ pip install jsonmodels
+
+The only runtime dependency is `python-dateutil` (used for parsing dates and
+times), it is installed automatically.
+
+To work on `jsonmodels` itself, see :doc:`contributing`.
