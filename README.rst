@@ -126,11 +126,13 @@ Features
         'additionalProperties': False,
         'required': ['surname', 'name'],
         'type': 'object',
+        'title': 'Person',
         'properties': {
             'car': {
                 'additionalProperties': False,
                 'required': ['registration_number'],
                 'type': 'object',
+                'title': 'Car',
                 'properties': {
                     'color': {'type': 'string'},
                     'engine_capacity': {'type': ''},
@@ -147,6 +149,7 @@ Features
                             'additionalProperties': False,
                             'required': ['name'],
                             'type': 'object',
+                            'title': 'Cat',
                             'properties': {
                                 'breed': {'type': 'string'},
                                 'name': {'type': 'string'}
@@ -156,6 +159,7 @@ Features
                             'additionalProperties': False,
                             'required': ['name'],
                             'type': 'object',
+                            'title': 'Dog',
                             'properties': {
                                 'age': {'type': 'number'},
                                 'name': {'type': 'string'}
@@ -241,7 +245,8 @@ Features
             "nickname",
             "name"
         ],
-        "type": "object"
+        "type": "object",
+        "title": "Person"
     }
 
   You can also validate scalars, when needed:
@@ -285,6 +290,7 @@ Features
     >>> Person.to_json_schema()
     {
         "type": "object",
+        "title": "Person",
         "additionalProperties": false,
         "properties": {
             "item_validator_str": {
@@ -350,6 +356,7 @@ that can be expressed in json schema if you want to be 100% correct on schema si
     >>> Filesystem.to_json_schema()
     {
         "type": "object",
+        "title": "Filesystem",
         "properties": {
             "name": {"type": "string"}
             "children": {
@@ -378,7 +385,8 @@ that can be expressed in json schema if you want to be 100% correct on schema si
                     },
                     "name": {"type": "string"}
                 },
-                "type": "object"
+                "type": "object",
+                "title": "Directory"
             },
             "file": {
                 "additionalProperties": false,
@@ -386,7 +394,8 @@ that can be expressed in json schema if you want to be 100% correct on schema si
                     "name": {"type": "string"},
                     "size": {"type": "number"}
                 },
-                "type": "object"
+                "type": "object",
+                "title": "File"
             }
         }
     }
@@ -408,6 +417,7 @@ data are with no schema defined and schemaless fields are the way to go.)
     >>> Event.to_json_schema()
     {
         "type": "object",
+        "title": "Event",
         "additionalProperties": false,
         "properties": {
             "extra": {

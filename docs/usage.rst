@@ -190,6 +190,7 @@ With this schema generated look like this:
 
     {
         "type": "object",
+        "title": "Person",
         "additionalProperties": false,
         "properties": {
             "age": {
@@ -202,6 +203,7 @@ With this schema generated look like this:
             },
             "pet": {
                 "type": "object",
+                "title": "Pet",
                 "additionalProperties": false,
                 "properties": {
                     "kind": {
@@ -260,6 +262,23 @@ is possible to you to operate just on models.
 
 And thats it! You can serve then this schema through your API or use it for
 validation incoming data.
+
+Every object in the generated schema gets a ``title``, which by default is the
+name of the model class. To use a different one, set the ``schema_title`` class
+attribute (it is not treated as a field):
+
+.. code-block:: python
+
+    >>> class Person(models.Base):
+    ...
+    ...     schema_title = "Human being"
+    ...     name = fields.StringField()
+
+    >>> Person.to_json_schema()["title"]
+    'Human being'
+
+Note that ``schema_title`` is inherited by subclasses, so set it again in a
+subclass if it should get its own title.
 
 .. _different-names:
 

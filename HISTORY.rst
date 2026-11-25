@@ -3,6 +3,11 @@
 History
 -------
 
+2.10.0 (unreleased)
++++++++++++++++++++
+
+* Added ``title`` to generated object schemas. It defaults to the model class name and can be overridden with the ``schema_title`` class attribute (pyhi).
+
 2.9.0 (2026-10-25)
 ++++++++++++++++++
 
