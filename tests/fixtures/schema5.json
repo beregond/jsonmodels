@@ -5,5 +5,6 @@
             "type": "boolean"
         }
     },
+    "title": "Person",
     "type": "object"
 }

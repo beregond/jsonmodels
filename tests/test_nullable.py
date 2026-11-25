@@ -43,6 +43,7 @@ def test_nullable_embedded_field():
     expected = [
         {
             "type": "object",
+            "title": "Nullable",
             "additionalProperties": False,
             "properties": {"field": {"type": ["string", "null"]}},
         },

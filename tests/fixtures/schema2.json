@@ -1,11 +1,13 @@
 {
     "type": "object",
+    "title": "Person",
     "properties": {
         "age": {"type": "number"},
         "name": {"type": "string"},
         "surname": {"type": "string"},
         "car": {
             "type": "object",
+            "title": "Car",
             "properties": {
                 "brand": {"type": "string"},
                 "registration": {"type": "string"},
@@ -17,6 +19,7 @@
         "kids": {
             "items": {
                 "type": "object",
+                "title": "Kid",
                 "properties": {
                     "age": {"type": "number"},
                     "name": {"type": "string"},
@@ -29,6 +32,7 @@
                                 "name": {"type": "string"}
                             },
                             "required": ["name"],
+                            "title": "Toy",
                             "type": "object"
                         }
                     }

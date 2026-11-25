@@ -1,5 +1,6 @@
 {
     "type": "object",
+    "title": "People",
     "additionalProperties": false,
     "properties": {
         "min_max_len": {

@@ -1,5 +1,6 @@
 {
     "type": "object",
+    "title": "Person",
     "additionalProperties": false,
     "properties": {
         "lucky_numbers": {

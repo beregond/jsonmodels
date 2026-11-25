@@ -11,5 +11,6 @@
             "type": "string"
         }
     },
+    "title": "Event",
     "type": "object"
 }

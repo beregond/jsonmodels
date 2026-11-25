@@ -16,6 +16,7 @@
                             "type": "float"
                         }
                     },
+                    "title": "Viper",
                     "type": "object"
                 },
                 {
@@ -28,6 +29,7 @@
                             "type": "float"
                         }
                     },
+                    "title": "Lamborghini",
                     "type": "object"
                 }
             ]
@@ -45,6 +47,7 @@
                                 "type": "string"
                             }
                         },
+                        "title": "PC",
                         "type": "object"
                     },
                     {
@@ -57,6 +60,7 @@
                                 "type": "string"
                             }
                         },
+                        "title": "Laptop",
                         "type": "object"
                     },
                     {
@@ -69,6 +73,7 @@
                                 "type": "string"
                             }
                         },
+                        "title": "Tablet",
                         "type": "object"
                     }
                 ]
@@ -86,5 +91,6 @@
         "surname",
         "name"
     ],
+    "title": "Person",
     "type": "object"
 }

@@ -17,6 +17,7 @@
                     "type": "string"
                 }
             },
+            "title": "Directory",
             "type": "object"
         },
         "tests_test_circular_references_file": {
@@ -29,6 +30,7 @@
                     "type": "float"
                 }
             },
+            "title": "File",
             "type": "object"
         }
     },
@@ -46,5 +48,6 @@
             "type": "string"
         }
     },
+    "title": "Filesystem",
     "type": "object"
 }

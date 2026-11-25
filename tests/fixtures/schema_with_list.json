@@ -29,6 +29,7 @@
                                 "type": "string"
                             }
                         },
+                        "title": "Event",
                         "type": "object"
                     }
                 ]
@@ -36,5 +37,6 @@
             "type": "array"
         }
     },
+    "title": "Person",
     "type": "object"
 }
