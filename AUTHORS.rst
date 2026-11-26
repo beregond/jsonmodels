@@ -16,6 +16,7 @@ Contributors
 * Chris Targett <chris.targett@xlevus.net>
 * Daniel Schiavini <d.schiavini@ultimaker.com>
 * Dima Kuznetsov <dima.kuznetsov@toganetworks.com>
+* Discharged_spider <IDanila24@gmail.com>
 * Hugo van Kemenade <hugovk@users.noreply.github.com>
 * Jannis Leidel <jannis@leidel.info>
 * Johannes Garimort <johannes.garimort@gmx.net>
