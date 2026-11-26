@@ -80,6 +80,11 @@ class ObjectBuilder(Builder):
         module_name = f"{self.type.__module__}.{self.type.__name__}"
         return module_name.replace(".", "_").lower()
 
+    @property
+    def title(self):
+        """Schema title: ``__schema_title__`` class attribute, else the class name."""
+        return getattr(self.type, "__schema_title__", None) or self.type.__name__
+
     def build_definition(self, add_definitions=True, nullable=False, **kwargs):
         if "add_defintitions" in kwargs:
             warnings.warn(
@@ -94,6 +99,7 @@ class ObjectBuilder(Builder):
         }
         schema = {
             "type": "object",
+            "title": self.title,
             "additionalProperties": False,
             "properties": properties,
         }

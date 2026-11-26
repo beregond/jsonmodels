@@ -6,5 +6,6 @@
             "pattern": "/^some pattern$/"
         }
     },
+    "title": "Person",
     "type": "object"
 }

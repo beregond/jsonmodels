@@ -6,5 +6,6 @@
             "enum": ["left", "right"]
         }
     },
+    "title": "Person",
     "type": "object"
 }

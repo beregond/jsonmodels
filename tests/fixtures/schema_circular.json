@@ -9,6 +9,7 @@
                 },
                 "secondary": "#/definitions/tests_test_circular_references_secondary"
             },
+            "title": "Primary",
             "type": "object"
         },
         "tests_test_circular_references_secondary": {
@@ -19,6 +20,7 @@
                 },
                 "first": "#/definitions/tests_test_circular_references_primary"
             },
+            "title": "Secondary",
             "type": "object"
         }
     },
@@ -28,5 +30,6 @@
         },
         "secondary": "#/definitions/tests_test_circular_references_secondary"
     },
+    "title": "Primary",
     "type": "object"
 }

@@ -1,5 +1,6 @@
 {
     "type": "object",
+    "title": "Person",
     "additionalProperties": false,
     "properties": {
         "age": {
@@ -22,6 +23,7 @@
         },
         "pet": {
             "type": "object",
+            "title": "Pet",
             "additionalProperties": false,
             "properties": {
                 "kind": {
