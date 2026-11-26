@@ -82,8 +82,8 @@ class ObjectBuilder(Builder):
 
     @property
     def title(self):
-        """Schema title: ``schema_title`` class attribute or the class name."""
-        return getattr(self.type, "schema_title", None) or self.type.__name__
+        """Schema title: ``__schema_title__`` class attribute, else the class name."""
+        return getattr(self.type, "__schema_title__", None) or self.type.__name__
 
     def build_definition(self, add_definitions=True, nullable=False, **kwargs):
         if "add_defintitions" in kwargs:

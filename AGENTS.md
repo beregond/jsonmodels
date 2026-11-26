@@ -1,0 +1,41 @@
+# AGENTS.md
+
+## Overview
+- `jsonmodels`: Python library for declaring data models (fields, validators), validating them, and generating JSON schema from them.
+- Docs are reStructuredText (`README.rst`, `docs/`, `HISTORY.rst`); packaging in `pyproject.toml`.
+
+## Layout
+- `jsonmodels/models.py` - `Base` model; `iterate_over_fields` yields only `BaseField` instances (plain class attributes such as `__schema_title__` are never fields; a plain `schema_title` declared as a field is a normal field).
+- `jsonmodels/builders.py` - JSON schema builders (`ObjectBuilder`, etc.).
+- `jsonmodels/fields.py`, `validators.py`, `parsers.py`, `collections.py`, `errors.py`, `utilities.py` (`compare_schemas`).
+- `tests/` - pytest tests; `tests/fixtures/*.json` expected schemas; `tests/utilities.py` helpers.
+- `tasks.py` - invoke tasks (used by `tests/test_project.py`).
+- `HISTORY.rst` - changelog, generated at release time by pyhistory. Never edit it by hand in feature work.
+- `history/` - pending changelog entries (one file per entry, created by `pyhi add`).
+
+## Commands
+- Tests: `pytest` (the Makefile's `python setup.py test` is stale).
+- `tests/test_project.py` needs `invoke`; without it use `pytest --ignore=tests/test_project.py` (161 tests pass).
+- Lint: `pre-commit run --all-files`. Hooks: black (`--target-version py311`), isort (profile black), flake8 (max-line-length 88, max-complexity 8, flake8-pyproject), pygrep `python-check-blanket-noqa`, check-merge-conflict, check-yaml.
+
+## Conventions
+- Changelog entries: use the `pyhistory` package (PyPI), CLI `pyhi`. Do NOT edit `HISTORY.rst` directly.
+  - Add an entry: `pyhi add "Added X."` creates a file in `history/`; commit it with the change.
+  - Preview: `pyhi list`. Release (maintainer only): `pyhi update` writes the entries into `HISTORY.rst` and clears `history/`.
+  - Style: one short past-tense sentence ending with a period (e.g. "Added support for Python 3.15.").
+  - On this machine `pyhi` lives in a pyenv env, so run `PYENV_VERSION=json pyhi ...` if the bare `pyhi` shim fails.
+- Schema fixtures in `tests/fixtures/*.json`: keys alphabetically sorted, `required` arrays inline, order hand-kept. Edit by inserting lines. NEVER re-serialize with `json.dump` (caused a QA FAIL: noisy diff, lost key/array order).
+- Check a fixture diff is minimal: `git diff master..HEAD -- tests/fixtures | grep '^[-+]' | grep -v '"title"'` should print only file headers (for title-only changes).
+- Tests compare schemas with `jsonmodels.utilities.compare_schemas`, which ignores key order.
+- Redoing a contributor's old PR: cherry-pick their commit first (keeps authorship), then add redo commits on top; fold fixes in with `--fixup` + autosquash.
+
+## Features
+- Schema `title`: every model-generated object schema (root, nested, `definitions` entries) has `"title"`, from class attribute `__schema_title__` or else the class `__name__`. Resolved in `ObjectBuilder.title` (`jsonmodels/builders.py`): `getattr(self.type, "__schema_title__", None) or self.type.__name__`.
+  - The class `__name__` is the preferred title. `__schema_title__` is only for when the class name can't be used; when set it takes precedence. Docs: `docs/usage.rst`.
+  - Dunder name chosen for backward compatibility: a plain `schema_title` could clash with existing user fields/attributes. A plain `schema_title` field is just a normal field and does not affect the title (`test_plain_schema_title_field_does_not_affect_title`).
+  - `__schema_title__` is inherited by subclasses (re-set to override).
+  - No `title` on `DictField`'s bare object or the null branch of a nullable `oneOf`. Tests: `tests/test_title.py`. New schema fixtures need `title` on every model-generated object.
+
+## Gotchas
+- README schema examples are stale (pre-existing, not fixed): `definitions` keys shown as `directory`/`file` vs real `tests_..._directory` style keys; some sample JSON is invalid (stray `,` after `{`, missing comma).
+- Sphinx docs build and spelling were not checked by QA.

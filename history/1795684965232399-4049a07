@@ -1,0 +1,1 @@
+Added "title" to generated object schemas (defaults to class name, can be overridden with "__schema_title__" class attribute).
