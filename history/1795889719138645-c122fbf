@@ -1,0 +1,1 @@
+Version is now taken from git tags (versioningit) instead of pyproject.toml.

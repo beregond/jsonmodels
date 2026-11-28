@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "versioningit"]
 build-backend = "hatchling.build"
 
 [project]
 name = "jsonmodels"
-version = "2.9.1"
+dynamic = ["version"]
 description = "Models to make easier to deal with structures that are converted to, or read from JSON."
 readme = "README.rst"
 requires-python = ">=3.11"
@@ -47,6 +47,15 @@ dev = [
 
 [project.urls]
 "Home" = "https://github.com/beregond/jsonmodels"
+
+[tool.hatch.version]
+source = "versioningit"
+
+[tool.versioningit]
+default-version = "0.0.0"
+
+[tool.versioningit.write]
+file = "jsonmodels/_version.py"
 
 [tool.flake8]
 exclude = ["./docs/conf.py"]

@@ -32,19 +32,9 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: release-${{ hashFiles('**/setup.py') }}
+          key: release-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
             release-
-
-      - name: Verify tag matches pyproject.toml version
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-        run: |
-          TAG="${GITHUB_REF_NAME#v}"
-          VERSION="$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"
-          if [ "$TAG" != "$VERSION" ]; then
-            echo "Tag '$GITHUB_REF_NAME' does not match pyproject.toml version '$VERSION'"
-            exit 1
-          fi
 
       - name: Install dependencies
         run: |
@@ -56,6 +46,18 @@ jobs:
         run: |
           python -m build
           twine check dist/*
+
+      # Version comes from the git tag (versioningit), so make sure the built
+      # packages carry exactly the tag's version (e.g. not "2.9.1.post1+g...").
+      - name: Verify built version matches tag
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          ls dist/
+          if [ ! -f "dist/jsonmodels-${TAG}.tar.gz" ] || ! ls "dist/jsonmodels-${TAG}-"*.whl >/dev/null 2>&1; then
+            echo "Built packages do not match tag '$GITHUB_REF_NAME'"
+            exit 1
+          fi
 
       - name: Upload packages to PyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
