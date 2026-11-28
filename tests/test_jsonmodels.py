@@ -287,6 +287,43 @@ def test_get_field():
     assert alan.get_field("age") is age_field
 
 
+def test_get_field_on_class():
+    name_field = fields.StringField()
+
+    class Person(models.Base):
+        name = name_field
+        not_a_field = "value"
+
+        def method(self):
+            pass
+
+    assert Person.get_field("name") is name_field
+    for attr_name in ("not_a_field", "method", "missing"):
+        with pytest.raises(errors.FieldNotFound):
+            Person.get_field(attr_name)
+
+
+def test_finish_initialization_runs_once(monkeypatch):
+    calls = []
+    original = fields.StringField._finish_initialization
+
+    def tracking(self, owner):
+        calls.append(owner)
+        original(self, owner)
+
+    monkeypatch.setattr(fields.StringField, "_finish_initialization", tracking)
+
+    class Person(models.Base):
+        name = fields.StringField()
+
+    alan = Person(name="Alan")
+    alan.name = "Alan Turing"
+    assert alan.name == "Alan Turing"
+    Person.get_field("name")
+
+    assert calls == [Person]
+
+
 def test_repr():
     class Person(models.Base):
         name = fields.StringField()
